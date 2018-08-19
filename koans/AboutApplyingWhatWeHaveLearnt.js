@@ -112,13 +112,58 @@ describe("About Applying What We Have Learnt", function() {
   /*********************************************************************************/
   
   
-  it("should find the largest prime factor of a composite number", function () {
-  
+  it("should find the largest prime factor of a composite number", function largestPrime(number) {
+    //turn input into a range array
+    //if input % item in range is 0, item is a factor
+    //filter items in factor array to prime factors
+    //find the largest prime factor using reduce
+
+    var allFactors = _(_.range(2,number)).filter(function(element) {
+      return number % element === 0;
+    });
+
+    var primeFactors = _(allFactors).filter(function(element) {
+      var elementRange = _.range(2, element);
+      return _(elementRange).all(function(item) {
+        return element % item !== 0;
+      })
+    });
+
+    return _(primeFactors).reduce(function(max, cur) {
+      if (cur > max) {
+        max = cur;
+      }
+      return max;
+    }, primeFactors[1]);
+
+    expect(largestPrime(2080)).toBe(13);
+
   });
 
-  it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
-    
-  });
+  it("should find the largest palindrome made from the product of two 3 digit numbers", function largestPalindromeOfProductOfTwoThreeDigitNums() {
+    //descending range of all product of two 3 digit numbers (from 999*999 to 100*100)
+    //find the first one that is a palindrome
+    //to find palindrome reversed number string equal to the original number strings
+    var allProducts = [];
+    for (i = 100; i < 1000; i++) {
+      for (j = 100; j < 1000; j++) {
+        allProducts.push([i] * [j]);
+      }
+    }
+
+    var desendingProducts = _(allProducts).sortBy(function(num1, num2) {
+      return num2 - num1;
+    });
+
+    return _(desendingProducts).find(function(num) {
+      var splitNum = num.toString().split("");
+      var reverseArr = []
+      for (i = splitNum.length - 1; i >= 0; i--) {
+        reverseArr.push(splitNum[i]);
+      }
+      return num === parseInt(reverseArr.join(""));
+    });
+  }
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
       
