@@ -165,16 +165,59 @@ describe("About Applying What We Have Learnt", function() {
     });
   }
 
-  it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-      
-    
+  it("should find the smallest number divisible by each of the numbers 1 to 20", function divisibleByOneToTwenty() {
+    //find all unique prime numbers between 1-20
+    //check each number, if it's not divisible by any between 2 to this number, then it's prime
+    //product of all prime numbers
+    var range = _.range(2,21);
+
+    var primeNums = [];
+    _(range).each(function(num) {
+      var subRange = _.range(2,num);
+      var isPrime = _(subRange).all(function(element) {
+        return num % element !== 0;
+      });
+      if (isPrime && primeNums.indexOf(num) === -1) {
+        primeNums.push(num);
+      };
+    });
+
+    return _(primeNums).reduce(function(acc, cur) {
+      return acc * cur;
+    }, 1);
   });
 
-  it("should find the difference between the sum of the squares and the square of the sums", function () {
-    
+  it("should find the difference between the sum of the squares and the square of the sums", function sumSquareDiff(num1, num2) {
+    var sub = (num1*num1 + num2*num2) - (num1 + num2) * (num1 + num2)
+    if (sub >= 0) {
+      return sub;
+    } else {
+      return 0 - sub;
+    }
   });
 
-  it("should find the 10001st prime", function () {
+  it("should find the 10001st prime", function findTenThousandOnePrime() {
+    var count = 1;
+    var currentNum = 2;
+    var primeNum = 0;
+    
+
+    while(count < 10002) {
+      var subRange = _.range(2, currentNum);
+      var isPrime = _(subRange).all(function(element) {
+        return currentNum % element !== 0;
+      });
+
+      if (isPrime) {
+        primeNum = currentNum;
+        count++;
+        currentNum++;
+      } else {
+        currentNum++;
+      }
+    }
+
+    return primeNum;
 
   });
 
